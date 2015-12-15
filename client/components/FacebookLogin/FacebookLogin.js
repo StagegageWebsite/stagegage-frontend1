@@ -7,7 +7,8 @@ export default class FacebookLogin extends React.Component {
       this.FB = props.fb;
 
       this.state = {
-         message: ""
+         message: "",
+         accessToken: ""
       };
 
    }
@@ -26,12 +27,30 @@ export default class FacebookLogin extends React.Component {
       if( response.status === "connected" ) {
          this.FB.api('/me', function(response) {
             var message = "Welcome " + response.name;
-            self.setState({
-               message: message
-            });
+            self.setState({message: message });
          })
+         self.setState({accessToken: response.authResponse.accessToken});
+
+        //  var headers = {'Authorization': this.session.content.token}
+        // ajax(
+        //           type: 'GET',
+        //           url: "stagegage.herokuapp.com/artists/",
+        //           beforeSend: function (request) {
+        //             request.setRequestHeader("Authorization", "Bearer facebook" + self.state.auth_token);
+        //           }
+        //       });
+
+        //  var oReq = new XMLHttpRequest();
+        //  oReq.open("GET", "stagegage.herokuapp.com/artists/", true);
+        //  oReq.setRequestHeader("Authorization", "Bearer facebook" + self.state.auth_token);
+        //  oReq.onreadystatechange = function () {
+        //     if (oReq.readyState == oReq.DONE) {
+        //       console.log(oReq.response);
+        //     }
+        //   }
       }
    }
+
 
    onLogout(response) {
       this.setState({
